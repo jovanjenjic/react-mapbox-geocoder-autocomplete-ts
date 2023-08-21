@@ -1,5 +1,5 @@
 import React from 'react';
-import { Map, Geocoder } from 'react-mapbox-geocoder-autocomplete';
+import { Map, Autocomplete } from 'react-mapbox-geocoder-autocomplete';
 
 const initViewPosition = {
   longitude: -73.9866,
@@ -15,8 +15,6 @@ interface ViewPositionShort {
   lng: number;
   lat: number;
 }
-
-const mapToken = "pk.eyJ1Ijoiam92YW5qZW5qaWMiLCJhIjoiY2wzdWJvNG4wMGZ2YjNkcGZ2dm5kZm5nYyJ9.9bCbz74PqDnzQDpBqRenHw";
 
 /** `promiseFn` for fetching map-box address by coordinates */
 const getMapAddress = async (mapToken: string, { lng, lat }: ViewPositionShort) => {
@@ -35,7 +33,7 @@ const getMapAddress = async (mapToken: string, { lng, lat }: ViewPositionShort) 
   return {};
 };
 
-function App() {
+function App({ mapToken = process.env.REACT_APP_MAP_TOKEN as string }) {
   const [viewPosition, setViewPosition] = React.useState(initViewPosition);
   const [address, setAddress] = React.useState("");
 
@@ -60,7 +58,7 @@ function App() {
   };
   return (
     <div>
-      <Geocoder mapToken={mapToken} address={address} onItemClick={onItemClick} />
+      <Autocomplete mapToken={mapToken} address={address} onItemClick={onItemClick} />
       <Map handleMarkerDrag={handleMarkerDrag} mapToken={mapToken} viewPosition={viewPosition} />
     </div>
   );
